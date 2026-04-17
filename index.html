@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yin Wendi - 个人网站</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+/* --- CSS 变量与主题 --- */
+:root {
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --secondary-color: #56aeff;
+    
+    /* 亮色模式变量 */
+    --text-main: #333333;
+    --text-muted: #666666;
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+[data-theme="dark"] {
+    /* 暗色模式变量 */
+    --text-main: #f0f0f0;
+    --text-muted: #bbbbbb;
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* --- 全局重置与基础样式 --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', 'Noto Sans SC', sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: color 0.3s ease;
+}
+
+/* --- 背景层 --- */
+.fixed-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('bg.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed; 
+    background-repeat: no-repeat;
+}
+
+/* --- 核心组件：毛玻璃效果 --- */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+    transition: background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section {
+    padding: 100px 0 50px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 600;
+    color: var(--text-main);
+    font-size: 2.5rem;
+}
+
+/* --- 按钮样式 --- */
+.btn {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: #fff;
+    box-shadow: none;
+}
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+.btn-primary:focus,
+.btn-primary:active {
+    outline: none;
+    box-shadow: none;
+    transform: none;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-main);
+    border: 2px solid var(--primary-color);
+}
+.btn-secondary:hover { background: var(--primary-color); color: #fff; transform: translateY(-2px); }
+
+/* --- 导航栏 --- */
+.navbar {
+    position: fixed;
+    top: 15px; left: 50%;
+    transform: translateX(-50%);
+    width: 95%; max-width: 1200px;
+    z-index: 1000;
+    border-radius: 50px;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-decoration: none;
+}
+.logo span { color: var(--primary-color); }
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+.nav-link:hover, .nav-link.active { color: var(--primary-color); }
+
+.theme-btn {
+    background: transparent; border: none;
+    color: var(--text-main); font-size: 1.2rem;
+    cursor: pointer; transition: color 0.3s;
+}
+.theme-btn:hover { color: var(--primary-color); }
+
+.menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+
+/* --- 英雄区域 --- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px;
+}
+
+.hero-content {
+    text-align: center;
+    padding: 50px;
+    max-width: 700px;
+}
+
+.profile-img {
+    width: 150px; height: 150px;
+    border-radius: 50%;
+    border: 4px solid var(--primary-color);
+    margin-bottom: 20px;
+    background: var(--glass-bg);
+    object-fit: cover;
+}
+
+.hero h1 { font-size: 3rem; margin-bottom: 10px; }
+.hero h1 span { color: var(--primary-color); }
+.hero h2 { font-size: 1.5rem; font-weight: 400; color: var(--text-muted); margin-bottom: 20px; }
+.hero-btns { margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
+
+/* --- 关于我 --- */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.about-card {
+    padding: 35px 25px;
+    border-radius: 20px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    color: #4a90e2;
+    margin-bottom: 20px;
+}
+
+.about-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.about-card p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    opacity: 0.85;
+}
+
+.about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    padding: 20px 30px;
+    border-radius: 50px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(74, 144, 226, 0.15);
+    color: #4a90e2;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.tag:hover {
+    background: #4a90e2;
+    color: #ffffff;
+}
+
+/* --- 项目展示 --- */
+.filter-btns { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
+.filter-btn {
+    background: transparent; border: 1px solid var(--text-muted);
+    color: var(--text-main); padding: 5px 15px; border-radius: 20px;
+    cursor: pointer; transition: 0.3s;
+}
+.filter-btn.active, .filter-btn:hover { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.project-card { overflow: hidden; display: flex; flex-direction: column; }
+.project-card.hide { display: none; }
+.project-img img { width: 100%; height: 200px; object-fit: cover; transition: transform 0.5s ease; }
+.project-card:hover .project-img img { transform: scale(1.05); }
+.project-info { padding: 20px; }
+.project-info h3 { margin-bottom: 10px; }
+.project-info p { color: var(--text-muted); margin-bottom: 15px; font-size: 0.9rem; }
+.btn-sm { text-decoration: none; color: var(--primary-color); font-weight: 500; font-size: 0.9rem; }
+
+/* --- 联系我 --- */
+.contact-container { text-align: center; padding: 50px; }
+.contact-container p { margin-bottom: 30px; color: var(--text-muted); }
+.contact-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+
+/* --- 统一模态框样式 --- */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #ff4757;
+}
+
+.cert-image-container img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+}
+
+.qr-placeholder { margin-top: 20px; padding: 50px; border: 2px dashed var(--text-muted); border-radius: 10px; color: var(--text-muted); }
+.qr-placeholder i { font-size: 3rem; margin-bottom: 10px; }
+
+/* --- 页脚 --- */
+footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.9rem; margin-top: 50px; }
+
+/* --- 响应式设计 --- */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-menu {
+        position: absolute; top: 100%; left: 0; width: 100%;
+        flex-direction: column; background: var(--glass-bg);
+        backdrop-filter: blur(15px); border-radius: 0 0 20px 20px;
+        padding: 20px 0; gap: 15px; clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 0.4s ease;
+    }
+    .nav-menu.active { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    .about-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.2rem; }
+}
+    </style>
+</head>
+<body>
+    <div class="fixed-bg"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="#home" class="logo">Yin<span>Wendi</span></a>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">首页</a></li>
+                <li><a href="#about" class="nav-link">关于我</a></li>
+                <li><a href="#experience" class="nav-link">实习经历</a></li>
+                <li><a href="#portfolio" class="nav-link">作品展示</a></li>
+                <li><a href="#contact" class="nav-link">联系方式</a></li>
+                <li>
+                    <button id="theme-toggle" class="theme-btn">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="container hero-content glass">
+         <img src="avatar.jpg" alt="尹文迪的头像" class="profile-img">
+            <h1>你好，我是 <span>尹文迪</span></h1>
+            <h2>专业的财务人员 & AI应用探索者</h2>
+            <p>让工作不仅是谋生的手段，而是展示自我的机会。</p>
+         <div class="hero-btns" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+                <a href="#about" class="btn btn-secondary">关于我</a>
+                <a href="#experience" class="btn btn-secondary">实习经历</a>
+                <a href="#portfolio" class="btn btn-secondary">作品展示</a>
+                <a href="#contact" class="btn btn-secondary">联系方式</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-grid">
+                <!-- 证书弹窗触发按钮 -->
+                <div class="about-card glass" id="cert-trigger" style="cursor: pointer;">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                   <h3>财务领域深耕</h3>
+                   <p>· <strong>专业知识扎实：</strong>具有税务师证书、资产评估师证书、证券从业资格证；CPA进度：4/6；</p>
+                   <p style="margin-top: 10px;">· <strong>系统实操能力：</strong>熟练运用 <strong>SAP</strong> 系统完成物料查询、转让定价维护等操作，可快速适应新工作需求。</p>
+		           <div style="text-align: right; margin-top: 15px; color: #4a90e2; font-size: 0.9rem;">
+                  点击查看证书 <i class="fas fa-expand"></i>
+              </div>
+                </div>
+
+                <div class="about-card glass">
+                    <div class="card-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3>技术与 AI 赋能</h3>
+                    <p>· <strong>Excel VBA 宏编程：</strong>数据自动化处理（多表合并、数据汇总）；</p>
+                    <p style="margin-top: 10px;">· <strong>Power BI：</strong>熟练运用 <strong>Power BI</strong>进行数据清洗、建模与可视化分析，可制作业务报表、dashboard 看板，实现数据直观展示与动态筛选；</p>
+                    <p style="margin-top: 10px;">· <strong>AI 工具：</strong>主动探索 AI 工具应用，并结合业务场景落地实践，有效提升个人与团队工作效率。</p>
+                </div>
+                
+                <div class="about-card glass">
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                    <h3>团队统筹与协同</h3>
+                   <p>· <strong>沟通协调能力：</strong>曾任研究生支部支委，协同多个支部开展活动，任期内带领支部荣获“学院优秀党支部”称号；</p>
+                    <p style="margin-top: 10px;">· <strong>问题解决能力：</strong>持续了解<strong>业务痛点</strong>，输出方案解决问题；</p>
+                    <p style="margin-top: 10px;">· <strong>快速适应能力：</strong>面对岗位调整与工作内容变化，可高效适配并稳定输出。</p>
+                </div>
+            </div>
+
+            <div class="about-tags glass">
+                <span class="tag"><i class="fas fa-laptop"></i> 思考者</span>
+                <span class="tag"><i class="fas fa-camera-retro"></i> 探索者</span>
+                <span class="tag"><i class="fas fa-search"></i> 实践者</span>
+                <span class="tag"><i class="fas fa-book-reader"></i> 终身学习者</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+        <div class="container">
+            <h2 class="section-title">实习经历</h2>
+            <div class="timeline glass" style="max-width: 1000px; margin: 0 auto; padding: 40px;">
+  	    	<div class="timeline-item" style="margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                	<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    		<div class="date" style="font-weight: 500; color: #4a90e2;">2025.11-2026.04</div>
+                    		<h4 style="margin: 0; flex: 1;">财务控制实习生 - 博世集团（RBCD）</h4>
+
+                    		 <img src="images/bosch-logo.png" alt="博世集团 Logo" style="width: 60px; height: 60px; object-fit: contain; flex-shrink: 0;">
+                </div>
+ 	 	<ul style="margin: 0; padding-left: 20px; line-height: 1.8; color: #333;">
+                    <li>项目采购数据分析与报告：整理并分析燃料电池原料的采购数据，通过 Power Bi 搭建可视化预警看板，实现了SAP系统报价波动实时追踪。精准识别 85 类异常报价，提前排查并推进部分呆滞料隐患处理；</li>
+                    <li>借助 AI 优化现有工作流程：运用 Coze 搭建专属数据采集站点，实现多平台铂金价格自动抓取，替代每日人工手动查询，大幅提升数据获取效率；</li>
+                    <li>测算关联交易定价：测算内部交易转移定价(TP)，跟进订单履约进度， 支持相关业务的顺利进行。</li>
+ 		</ul>
+                </div>
+
+                <div class="timeline-item" style="margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <div class="date" style="font-weight: 500; color: #4a90e2;">2025.07-2025.10</div>
+                    <h4 style="margin: 0; flex: 1;">财务助理 - 南京理工大学财务处</h4>
+                    <img src="images/njust-logo.png" alt="南京理工大学 Logo" style="width: 60px; height: 60px; object-fit: contain; flex-shrink: 0;">
+                </div>
+                <ul style="margin: 0; padding-left: 20px; line-height: 1.8; color: #333;">
+                    <li>合规审核并执行标准化财务流程：依据财务政策和制度，精准识别不合规报销资料，对报销风险进行合规把控与细节甄别，保障基础工作的严谨性。针对风险材料，及时与项目负责人沟通，报销办结率达95%；</li>
+                    <li>配合运维财务报销系统、处理系统异常和操作故障：针对报销流程中出现的系统问题，快速定位问题并给出解决方案。累计响应师生咨询超 300 人次，系统问题解决率100%，显著优化师生报销服务体验。</li>
+                </ul>
+            </div>
+
+                    <div class="timeline-item" style="margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <div class="date" style="font-weight: 500; color: #4a90e2;">2021.06-2024.06</div>
+                    <h4 style="margin: 0; flex: 1;">核算会计 - 山东莱钢永锋钢铁有限公司</h4>
+                    <img src="images/laigang-logo.png" alt="山东莱钢永锋 Logo" style="width: 60px; height: 60px; object-fit: contain; flex-shrink: 0;">
+                </div>
+                <ul style="margin: 0; padding-left: 20px; line-height: 1.8; color: #333;">
+                    <li>收入结算与发票开具：负责螺纹钢与副产品的收入结算工作，推动了物资出库系统化流程，保证95%以上订单遵循系统结算流程；</li>
+                    <li>采购核算与物资管控：严格审核采购结算单，及时处理结算差异；负责废钢的库存盘点工作，实施库存A/B堆管理，同时规定运输车辆进厂后按照固定路线行进，解决废钢亏吨问题；</li>
+                    <li>往来款项核对：负责与上下游企业的对账工作，查明入账差异，主动推进5家企业处理历史对账差异。</li>
+                </ul>
+            </div>
+
+ 		   <div class="timeline-item">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <div class="date" style="font-weight: 500; color: #4a90e2;">2020.12-2021.05</div>
+                    <h4 style="margin: 0; flex: 1;">审计实习生 - 中审众环会计师事务所</h4>
+                    <img src="images/zhsh-logo.png" alt="中审众环 Logo" style="width: 60px; height: 60px; object-fit: contain; flex-shrink: 0;">
+                </div>
+                <ul style="margin: 0; padding-left: 20px; line-height: 1.8; color: #333;">
+                    <li>编制审计工作底稿：独立完成该公司5家子公司应付职工薪酬、往来款项以及货币资金等科目底稿30份；</li>
+                    <li>参与库存盘点：参与库存现金监盘，完成监盘表编制以及大额现金收支凭证查验；</li>
+                    <li>接发函证：单月收发银行函证52份，确保函证回函率100%，为审计结论提供可靠依据。</li>
+                </ul>
+            </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="section">
+        <div class="container">
+            <h2 class="section-title">作品展示</h2>
+            <div class="filter-btns">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="web">Excel模型</button>
+                <button class="filter-btn" data-filter="mobile">Power BI</button>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card glass" data-category="web">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80" alt="作品 1">
+                    </div>
+                    <div class="project-info">
+                        <h3> 编程语言</h3>
+                        <p>运用 VBA 进行宏开发、自定义函数、数组与字典运算，可独立编写脚本实现多工作表/多工作簿数据汇总、数据清洗、对账核对。</p>
+                        <a href="javascript:void(0);" class="btn-sm" onclick="openPbModal()"><i class="fab fa-github"></i> 查看详情</a>
+                    </div>
+                </div>
+                <div class="project-card glass" data-category="mobile">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&q=80" alt="作品 2">
+                    </div>
+                    <div class="project-info">
+                        <h3>可视化数据分析工具</h3>
+                        <p>Power BI 数据建模、DAX 度量值编写、数据转换（Power Query），可构建自动化报表、多维分析看板，支撑业务数据监控。</p>
+                       <a href="javascript:void(0);" class="btn-sm" onclick="openPbModal()"><i class="fab fa-github"></i> 查看详情</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container contact-container glass" style="max-width: 800px; margin: 0 auto; padding: 50px;">
+            <h2 class="section-title">联系方式</h2>
+            <p>随时欢迎交流技术或讨论合作机会，期待与您取得联系！</p>
+            <div class="contact-btns" style="margin-top: 30px;">
+                <a href="mailto:hello@example.com" class="btn btn-primary"><i class="fas fa-envelope"></i> 发送邮件</a>
+                <button class="btn btn-secondary modal-trigger" data-modal="wechat-modal"><i class="fab fa-weixin"></i> 微信</button>
+                <button class="btn btn-secondary modal-trigger" data-modal="qq-modal"><i class="fab fa-qq"></i> QQ</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Yin Wendi. All Rights Reserved.</p>
+    </footer>
+
+    <!-- 微信/QQ弹窗 -->
+    <div id="wechat-modal" class="modal">
+        <div class="modal-content glass">
+            <span class="close-btn" id="closeWechatModal">&times;</span>
+            <h3>扫码添加微信</h3>
+            <img src="images/wechat-qr.jpg" alt="微信二维码" style="width: 100%; max-width: 300px; border-radius: 8px; margin: 15px 0;">
+        </div>
+    </div>
+    <div id="qq-modal" class="modal">
+        <div class="modal-content glass">
+            <span class="close-btn" id="closeQQModal">&times;</span>
+            <h3>扫码添加 QQ</h3>
+            <img src="images/qq-qr.jpg" alt="QQ二维码" style="width: 100%; max-width: 300px; border-radius: 8px; margin: 15px 0;">
+        </div>
+    </div>
+
+    <!-- 证书弹窗 -->
+<div id="cert-modal" class="modal">
+    <div class="modal-content" style="width:95%; max-width:90%; padding:20px; max-height:90vh; overflow:auto;">
+        <span class="close-btn" id="close-cert" style="top:10px; right:15px; font-size:24px; cursor:pointer;">&times;</span>
+        <h3 style="margin-bottom:15px; text-align:center; font-size:18px;">专业资质证书</h3>
+        
+        <!-- 核心修复：限制图片总宽度+高度，保证完整显示 -->
+        <div style="
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap; /* 手机端自动换行，避免挤压 */
+        ">
+            <img src="images/tax.jpg" style="
+                width: 30%; /* 每张图占1/3 */
+                min-width: 200px; /* 手机端最小宽度，保证清晰 */
+                height: auto;
+                border-radius: 8px;
+                object-fit: contain;
+            ">
+            <img src="images/assets.jpg" style="
+                width: 30%;
+                min-width: 200px;
+                height: auto;
+                border-radius: 8px;
+                object-fit: contain;
+            ">
+            <img src="images/computer.jpg" style="
+                width: 30%;
+                min-width: 200px;
+                height: auto;
+                border-radius: 8px;
+                object-fit: contain;
+            ">
+        </div>
+    </div>
+</div>
+   <script src="script.js"></script>
+<!-- 网盘弹窗 -->
+<div id="downloadModal" class="modal">
+  <div class="modal-content glass">
+    <span class="close-btn" id="closeDownloadModal">&times;</span>
+    <h3>Power BI 资源下载</h3>
+    <p style="margin:15px 0;">百度网盘链接：</p>
+    <p><a href=" https://pan.baidu.com/s/1WQLIf3Akiy3cqQn4IRqHog?pwd=whx5" target="_blank"> https://pan.baidu.com/s/1WQLIf3Akiy3cqQn4IRqHog?pwd=whx5</a></p>
+    <p>提取码：rfwp</p>
+  </div>
+</div>
+
+<script>
+// 统一关闭所有弹窗
+function closeModal() {
+  document.getElementById("downloadModal").style.display = "none";
+  document.getElementById("wechat-modal").style.display = "none";
+  document.getElementById("qq-modal").style.display = "none";
+  document.getElementById("cert-modal").style.display = "none";
+}
+
+// 打开网盘弹窗
+function openPbModal() {
+  document.getElementById("downloadModal").style.display = "flex";
+}
+
+// 网盘关闭 + 背景关闭
+document.getElementById("closeDownloadModal").onclick = closeModal;
+document.querySelector("#downloadModal").onclick = function(e) {
+  if (e.target === this) closeModal();
+};
+
+// 微信关闭 + 背景关闭
+document.getElementById("closeWechatModal").onclick = closeModal;
+document.querySelector("#wechat-modal").onclick = function(e) {
+  if (e.target === this) closeModal();
+};
+
+// QQ关闭 + 背景关闭
+document.getElementById("closeQQModal").onclick = closeModal;
+document.querySelector("#qq-modal").onclick = function(e) {
+  if (e.target === this) closeModal();
+};
+
+// 证书关闭
+document.getElementById("close-cert").onclick = closeModal;
+document.querySelector("#cert-modal").onclick = function(e) {
+  if (e.target === this) closeModal();
+};
+</script>
+   </body>
+   </html>
